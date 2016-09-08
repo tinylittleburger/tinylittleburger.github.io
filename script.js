@@ -11,7 +11,7 @@
 	
 	window.onload = function() {
 		script = document.createElement("script");
-		script.src = "https://api.instagram.com/v1/tags/coffee/media/recent?access_token=" + token + "&callback=OnResult";
+		script.src = "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + token + "&callback=OnResult";
 		document.body.appendChild(script);
 	}
  }
