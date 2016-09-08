@@ -1,6 +1,6 @@
  function OnResult(result)
  {
-	 alert(JSON.stringify(result));
+	 alert(JSON.stringify(result, null, "  "));
  }
  
  if (window.location.hash)
