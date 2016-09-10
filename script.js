@@ -8,12 +8,22 @@
 		var image = images[i];
 		var standard = image.images.standard_resolution;
 		var url = standard.url;
-		links.push(url);
-		console.log(url);
+		var time = image.created_time;
+		
+		var pair = {
+		image_time: time,
+		image_url: url,
+		};
+		
+		links.push(pair);
+		console.log(pair.image_time + " " + pair.image_url);
 	}
 	
-	var min = images[0].id;
-	
+	if (images.length > 0)
+	{
+		var min = images[0].id;
+	}
+		
 	alert(min);
 	script = document.createElement("script");
 	script.src = "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + token + "&callback=OnResult&min_id=" + min;
