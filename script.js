@@ -21,17 +21,10 @@
 	
 	console.log("----------------");
 	
-	if (images.length > 0)
-	{
-		var max = images[images.length-1].id;
-	}
-		
-	alert(max);
-	
-	if (images.length == 20)
+	if (images.next_url)
 	{
 		script = document.createElement("script");
-		script.src = "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + token + "&callback=OnResult&max_id=" + max;
+		script.src = images.next_url;
 		document.body.appendChild(script);
 	}
  }
@@ -44,7 +37,7 @@
 	
 	window.onload = function() {
 		script = document.createElement("script");
-		script.src = "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + token + "&callback=OnResult";
+		script.src = "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + token + "&callback=OnResult&count=5";
 		document.body.appendChild(script);
 	}
  }
