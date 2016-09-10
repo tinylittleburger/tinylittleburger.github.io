@@ -1,10 +1,14 @@
+ var links = [];
+ 
  function OnResult(result)
  {
 	var images = result.data;
 	
-	for (var image of images) {
+	for (i = 0; i < images.length) {
+		var image = images[i];
 		var standard = image.images.standard_resolution;
 		var url = standard.url;
+		links.push(url);
 		console.log(url);
 	}
  }
