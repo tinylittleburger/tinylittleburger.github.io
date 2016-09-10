@@ -1,6 +1,12 @@
  function OnResult(result)
  {
-	alert(JSON.stringify(result, null, '  '));
+	var images = result.data;
+	
+	for (var image of images) {
+		var standard = image.images.standard_resolution;
+		var url = standard.url;
+		console.log(url);
+	}
  }
  
  if (window.location.hash)
