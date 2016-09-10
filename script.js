@@ -27,9 +27,13 @@
 	}
 		
 	alert(max);
-	script = document.createElement("script");
-	script.src = "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + token + "&callback=OnResult&max_id=" + max;
-	document.body.appendChild(script);
+	
+	if (images.length == 20)
+	{
+		script = document.createElement("script");
+		script.src = "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + token + "&callback=OnResult&max_id=" + max;
+		document.body.appendChild(script);
+	}
  }
  
  if (window.location.hash)
