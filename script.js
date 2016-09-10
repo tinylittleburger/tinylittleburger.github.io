@@ -21,12 +21,12 @@
 	
 	if (images.length > 0)
 	{
-		var min = images[0].id;
+		var max = images[0].id;
 	}
 		
-	alert(min);
+	alert(max);
 	script = document.createElement("script");
-	script.src = "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + token + "&callback=OnResult&min_id=" + min;
+	script.src = "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + token + "&callback=OnResult&max_id=" + max;
 	document.body.appendChild(script);
  }
  
