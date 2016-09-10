@@ -1,19 +1,6 @@
- var link = {
-  "data": [
-    {
-         "standard_resolution": {
-          "url": [...]
-        }
-      }
-	  ]
-};
- 
- var links = [];
- 
  function OnResult(result)
  {
-	alert(result.parse(link));
-	//alert(JSON.stringify(result, null, "  "));
+	alert(JSON.stringify(result, null, '  '));
  }
  
  if (window.location.hash)
