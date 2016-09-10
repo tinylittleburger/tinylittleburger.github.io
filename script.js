@@ -12,8 +12,7 @@
  
  function OnResult(result)
  {
-	 //aler("buu");
-	//alert(result.parse(link));
+	alert(result.parse(link));
 	//alert(JSON.stringify(result, null, "  "));
  }
  
