@@ -22,6 +22,7 @@
 	console.log("----------------");
 	
 	var next = result.pagination.next_url;
+	alert(next);
 	
 	if (next)
 	{
