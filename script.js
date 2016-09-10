@@ -19,6 +19,8 @@
 		console.log(pair.image_time + " " + pair.image_url);
 	}
 	
+	console.log("----------------");
+	
 	if (images.length > 0)
 	{
 		var max = images[images.length-1].id;
