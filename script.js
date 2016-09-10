@@ -21,7 +21,9 @@
 	
 	console.log("----------------");
 	
-	if (images.next_url)
+	var next = result.pagination.next_url;
+	
+	if (next)
 	{
 		script = document.createElement("script");
 		script.src = images.next_url;
