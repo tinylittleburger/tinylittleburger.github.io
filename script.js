@@ -21,7 +21,7 @@
 	
 	if (images.length > 0)
 	{
-		var max = images[0].id;
+		var max = images[length-1].id;
 	}
 		
 	alert(max);
