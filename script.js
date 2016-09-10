@@ -27,7 +27,7 @@
 	if (next)
 	{
 		script = document.createElement("script");
-		script.src = images.next_url;
+		script.src = next;
 		document.body.appendChild(script);
 	}
  }
