@@ -4,7 +4,7 @@
  {
 	var images = result.data;
 	
-	for (i = 0; i < images.length) {
+	for (i = 0; i < images.length; i++) {
 		var image = images[i];
 		var standard = image.images.standard_resolution;
 		var url = standard.url;
