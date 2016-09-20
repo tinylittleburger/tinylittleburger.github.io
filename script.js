@@ -75,6 +75,6 @@
 	return promise.then(result => result.blob())
 		.then(result => downloadedImages.push(result))
 		.then(() => console.log("Dohvacen "))
-		.then(() => doThing(links.slice(1, links.length)))
+		.then(() => fetching(links.slice(1, links.length)))
 		.catch(error => console.log(error));
 }
