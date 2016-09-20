@@ -30,7 +30,7 @@
 	}
 	else
 	{
-		fetch(links).then(() => {
+		fetching(links).then(() => {
 		var zip = new JSZip();
 
 		for (var i = 0; i < links.length; i++)
@@ -63,7 +63,7 @@
 	}
  }
  
- function fetch(links)
+ function fetching(links)
 {
 	if (links[0] == null)
 	{
