@@ -1,5 +1,5 @@
  var links = [];
- var images = [];
+ var downloadedImages = [];
  
  function OnResult(result)
  {
@@ -35,7 +35,7 @@
 
 		for (var i = 0; i < links.length; i++)
 		{
-			zip.file(links[i].image_time + ".jpg", images[i]);
+			zip.file(links[i].image_time + ".jpg", downloadedImages[i]);
 		}
 	
 		var preparedFile = zip.generateAsync({type:"blob"});
@@ -73,7 +73,7 @@
 	promise = fetch(links[0]);
 	
 	return promise.then(result => result.blob())
-		.then(result => images.push(result))
+		.then(result => downloadedImages.push(result))
 		.then(() => console.log("Dohvacen "))
 		.then(() => doThing(links.slice(1, links.length)))
 		.catch(error => console.log(error));
