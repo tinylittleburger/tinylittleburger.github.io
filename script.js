@@ -1,4 +1,5 @@
  var links = [];
+ var images = [];
  
  function OnResult(result)
  {
@@ -19,16 +20,33 @@
 		console.log(pair.image_time + " " + pair.image_url);
 	}
 	
-	console.log("----------------");
-	
 	var next = result.pagination.next_url;
-	alert(next);
-	
+		
 	if (next)
 	{
 		script = document.createElement("script");
 		script.src = next;
 		document.body.appendChild(script);
+	}
+	else
+	{
+		fetch(links).then(() => {
+		var zip = new JSZip();
+
+		for (var i = 0; i < links.length; i++)
+		{
+			zip.file(links[i].image_time + ".jpg", images[i]);
+		}
+	
+		var preparedFile = zip.generateAsync({type:"blob"});
+	
+		preparedFile.then(result => {
+			var url = window.URL.createObjectURL(result);
+			var link = document.getElementById("link");
+			link.download = "Inst-Archive.zip";
+			link.href = url;
+		});
+	});
 	}
  }
  
@@ -44,3 +62,19 @@
 		document.body.appendChild(script);
 	}
  }
+ 
+ function fetch(links)
+{
+	if (links[0] == null)
+	{
+		return;		
+	}
+	
+	promise = fetch(links[0]);
+	
+	return promise.then(result => result.blob())
+		.then(result => images.push(result))
+		.then(() => console.log("Dohvacen "))
+		.then(() => doThing(links.slice(1, links.length)))
+		.catch(error => console.log(error));
+}
