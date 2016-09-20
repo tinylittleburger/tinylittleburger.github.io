@@ -70,7 +70,7 @@
 		return;		
 	}
 	
-	promise = fetch(links[0]);
+	promise = fetch(links[0].image_url);
 	
 	return promise.then(result => result.blob())
 		.then(result => downloadedImages.push(result))
