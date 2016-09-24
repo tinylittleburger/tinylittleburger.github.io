@@ -52,17 +52,28 @@ function OnResult(result) {
 function getDate(timestamp) {
     var date = new Date(timestamp * 1000);
     var year = date.getFullYear();
-    var month = months[date.getMonth()];
-    var date = date.getDate();
+    var month = date.getMonth();
+    var day = date.getDate();
     var hour = date.getHours();
     var min = date.getMinutes();
     var sec = date.getSeconds();
 
-    var fullDate = "" + year + month + date + "_" + hour + min + sec;
+    var fullDate = "" + year + pad(month) + pad(day) + "_" + pad(hour) + pad(
+        min) + pad(sec);
 
     console.log(fullDate);
 
     return fullDate;
+}
+
+function pad(str) {
+    str = str + "";
+
+    while (str.length < 2) {
+        str = '0' + str;
+    }
+
+    return str;
 }
 
 if (window.location.hash) {
