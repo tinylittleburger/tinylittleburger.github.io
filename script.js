@@ -16,7 +16,7 @@ function OnResult(result) {
         };
 
         links.push(pair);
-        console.log(pair.image_time + " " + pair.image_url);
+        console.log(pair.image_time);
     }
 
     var next = result.pagination.next_url;
@@ -58,7 +58,11 @@ function getDate(timestamp) {
     var min = date.getMinutes();
     var sec = date.getSeconds();
 
-    return "" + year + month + date + "_" + hour + min + sec;
+    var fullDate = "" + year + month + date + "_" + hour + min + sec;
+
+    console.console.log(fullDate);
+
+    return fullDate;
 }
 
 if (window.location.hash) {
@@ -84,7 +88,6 @@ function fetching(links) {
 
     return promise.then(result => result.blob())
         .then(result => downloadedImages.push(result))
-        .then(() => console.log("Dohvacen "))
         .then(() => fetching(links.slice(1, links.length)))
         .catch(error => console.log(error));
 }
