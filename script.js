@@ -60,7 +60,7 @@ function getDate(timestamp) {
 
     var fullDate = "" + year + month + date + "_" + hour + min + sec;
 
-    console.console.log(fullDate);
+    console.log(fullDate);
 
     return fullDate;
 }
