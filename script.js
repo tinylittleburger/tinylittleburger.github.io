@@ -4,7 +4,7 @@ var userName;
 
 function OnResult(result) {
     var images = result.data;
-    username = images[0].user.userName;
+    userName = images[0].user.userName;
 
     for (i = 0; i < images.length; i++) {
         var image = images[i];
