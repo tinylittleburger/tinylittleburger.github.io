@@ -1,8 +1,10 @@
 var links = [];
 var downloadedImages = [];
+var userName;
 
 function OnResult(result) {
     var images = result.data;
+    username = images[0].user.userName;
 
     for (i = 0; i < images.length; i++) {
         var image = images[i];
@@ -42,7 +44,7 @@ function OnResult(result) {
             preparedFile.then(result => {
                 var url = window.URL.createObjectURL(result);
                 var link = document.getElementById("link");
-                link.download = "Inst-Archive.zip";
+                link.download = sanitize(userName) + ".zip";
                 link.href = url;
             });
         });
@@ -52,7 +54,7 @@ function OnResult(result) {
 function getDate(timestamp) {
     var date = new Date(timestamp * 1000);
     var year = date.getFullYear();
-    var month = date.getMonth();
+    var month = date.getMonth() + 1;
     var day = date.getDate();
     var hour = date.getHours();
     var min = date.getMinutes();
@@ -101,4 +103,12 @@ function fetching(links) {
         .then(result => downloadedImages.push(result))
         .then(() => fetching(links.slice(1, links.length)))
         .catch(error => console.log(error));
+}
+
+function sanitize(fileName) {
+    return fileName
+        .replace(/[<>*?]/g, '')
+        .replace(/[/\\|]/g, '-')
+        .replace('"', '\'')
+        .replace(':', ' -');
 }
