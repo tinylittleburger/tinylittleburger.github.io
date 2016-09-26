@@ -32,9 +32,7 @@ function OnResult(result) {
             var zip = new JSZip();
 
             for (var i = 0; i < links.length; i++) {
-                zip.file(getDate(links[i].image_time) + ".jpg",
-                    downloadedImages[
-                        i]);
+                zip.file(getDate(links[i].image_time) + ".jpg", downloadedImages[i]);
             }
 
             var preparedFile = zip.generateAsync({
@@ -42,8 +40,11 @@ function OnResult(result) {
             });
 
             preparedFile.then(result => {
+                document.getElementById("loader").className = "hide";
+                var link = document.getElementById("downloadButton");
+                link.className = "myButton show";
+
                 var url = window.URL.createObjectURL(result);
-                var link = document.getElementById("link");
                 link.download = sanitize(userName) + ".zip";
                 link.href = url;
             });
