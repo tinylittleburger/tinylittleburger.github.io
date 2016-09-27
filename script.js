@@ -37,7 +37,8 @@ function OnResult(result) {
             var zip = new JSZip();
 
             for (var i = 0; i < links.length; i++) {
-                var extension = links[i].slice(links[i].lastIndexOf("."));
+                var url = links[i].image_url;
+                var extension = url.slice(url.lastIndexOf("."));
                 zip.file(getDate(links[i].image_time) + extension, downloadedImages[i]);
             }
 
