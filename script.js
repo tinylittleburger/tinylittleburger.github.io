@@ -3,22 +3,27 @@ var downloadedImages = [];
 var userName;
 
 function OnResult(result) {
-    var images = result.data;
-    userName = images[0].user.username;
+    var media = result.data;
+    userName = media[0].user.username;
 
-    for (i = 0; i < images.length; i++) {
-        var image = images[i];
-        var standard = image.images.standard_resolution;
-        var url = standard.url;
-        var time = image.created_time;
+    for (i = 0; i < media.length; i++) {
+        var mediaFile = media[i];
+        var url;
+
+        if (mediaFile.type == "image") {
+            url = mediaFile.images.standard_resolution.url;
+        } else if (type == "video") {
+            url = mediaFile.videos.standard_resolution.url;
+        } else {
+            continue;
+        }
 
         var pair = {
-            image_time: time,
+            image_time: mediaFile.created_time,
             image_url: url,
         };
 
         links.push(pair);
-        console.log(pair.image_time);
     }
 
     var next = result.pagination.next_url;
@@ -32,7 +37,8 @@ function OnResult(result) {
             var zip = new JSZip();
 
             for (var i = 0; i < links.length; i++) {
-                zip.file(getDate(links[i].image_time) + ".jpg", downloadedImages[i]);
+                var extension = links[i].slice(links[i].lastIndexOf("."));
+                zip.file(getDate(links[i].image_time) + extension, downloadedImages[i]);
             }
 
             var preparedFile = zip.generateAsync({
@@ -101,7 +107,7 @@ function fetching(links) {
     promise = fetch(links[0].image_url);
 
     return promise.then(result => result.blob())
-        .then(result => downloadedImages.push(result))
+        .then(result => downloadedmedia.push(result))
         .then(() => fetching(links.slice(1, links.length)))
         .catch(error => console.log(error));
 }
