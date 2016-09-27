@@ -107,7 +107,7 @@ function fetching(links) {
     promise = fetch(links[0].image_url);
 
     return promise.then(result => result.blob())
-        .then(result => downloadedmedia.push(result))
+        .then(result => downloadedImages.push(result))
         .then(() => fetching(links.slice(1, links.length)))
         .catch(error => console.log(error));
 }
