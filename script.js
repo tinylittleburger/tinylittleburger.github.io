@@ -8,22 +8,22 @@ function OnResult(result) {
 
     for (i = 0; i < media.length; i++) {
         var mediaFile = media[i];
-        var url;
+
+        var mediaInfo = {
+            time: mediaFile.created_time
+        };
 
         if (mediaFile.type == "image") {
-            url = mediaFile.images.standard_resolution.url;
+            mediaInfo.url = mediaFile.images.standard_resolution.url;
+            mediaInfo.extension = ".jpg";
         } else if (mediaFile.type == "video") {
-            url = mediaFile.videos.standard_resolution.url;
+            mediaInfo.url = mediaFile.videos.standard_resolution.url;
+            mediaInfo.extension = ".mp4";
         } else {
             continue;
         }
 
-        var pair = {
-            image_time: mediaFile.created_time,
-            image_url: url,
-        };
-
-        links.push(pair);
+        links.push(mediaInfo);
     }
 
     var next = result.pagination.next_url;
@@ -37,9 +37,7 @@ function OnResult(result) {
             var zip = new JSZip();
 
             for (var i = 0; i < links.length; i++) {
-                var url = links[i].image_url;
-                var extension = url.slice(url.lastIndexOf("."));
-                zip.file(getDate(links[i].image_time) + extension, downloadedImages[i]);
+                zip.file(getDate(links[i].time) + links[i].extension, downloadedImages[i]);
             }
 
             var preparedFile = zip.generateAsync({
@@ -68,10 +66,7 @@ function getDate(timestamp) {
     var min = date.getMinutes();
     var sec = date.getSeconds();
 
-    var fullDate = "" + year + pad(month) + pad(day) + "_" + pad(hour) + pad(
-        min) + pad(sec);
-
-    console.log(fullDate);
+    var fullDate = "" + year + pad(month) + pad(day) + "_" + pad(hour) + pad(min) + pad(sec);
 
     return fullDate;
 }
@@ -105,7 +100,7 @@ function fetching(links) {
         return;
     }
 
-    promise = fetch(links[0].image_url);
+    promise = fetch(links[0].url);
 
     return promise.then(result => result.blob())
         .then(result => downloadedImages.push(result))
