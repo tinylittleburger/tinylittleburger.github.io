@@ -12,7 +12,7 @@ function OnResult(result) {
 
         if (mediaFile.type == "image") {
             url = mediaFile.images.standard_resolution.url;
-        } else if (type == "video") {
+        } else if (mediaFile.type == "video") {
             url = mediaFile.videos.standard_resolution.url;
         } else {
             continue;
