@@ -78,15 +78,16 @@ function fetching(links) {
     if (links.length === 5) {
         url = "http://abdfkja.sadf.com";
     }
+
     var promise = fetch(url);
 
     return promise.then(result => result.blob())
-        .then(result => downloadedImages.push(result))
-        .then(() => fetching(links.slice(1, links.length)))
         .catch(error => {
             failedLinks = links;
             throw error;
-        });
+        })
+        .then(result => downloadedImages.push(result))
+        .then(() => fetching(links.slice(1, links.length)));
 }
 
 function getDate(timestamp) {
