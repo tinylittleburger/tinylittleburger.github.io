@@ -39,17 +39,17 @@ function OnResult(result) {
 
 function download(links, userName) {
     fetching(links).then(() => {
-        var zip = new JSZip();
+            var zip = new JSZip();
 
-        for (var i = 0; i < links.length; i++) {
-            zip.file(getDate(links[i].time) + links[i].extension, downloadedImages[i]);
-        }
+            for (var i = 0; i < links.length; i++) {
+                zip.file(getDate(links[i].time) + links[i].extension, downloadedImages[i]);
+            }
 
-        var preparedFile = zip.generateAsync({
-            type: "blob"
-        });
+            var preparedFile = zip.generateAsync({
+                type: "blob"
+            });
 
-        preparedFile.then(result => {
+            preparedFile.then(result => {
                 document.getElementById("loader").className = "hide";
                 var link = document.getElementById("downloadButton");
                 link.innerHTML = "Download";
@@ -58,14 +58,14 @@ function download(links, userName) {
                 var url = window.URL.createObjectURL(result);
                 link.download = sanitize(userName) + ".zip";
                 link.href = url;
-            })
-            .catch(() => {
-                document.getElementById("loader").className = "hide";
-                var link = document.getElementById("downloadButton");
-                link.innerHTML = "Retry";
-                link.className = "myButton show";
             });
-    });
+        })
+        .catch(() => {
+            document.getElementById("loader").className = "hide";
+            var link = document.getElementById("downloadButton");
+            link.innerHTML = "Retry";
+            link.className = "myButton show";
+        });
 }
 
 function fetching(links) {
