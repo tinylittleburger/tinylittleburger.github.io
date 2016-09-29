@@ -62,7 +62,7 @@ function download(links) {
 
 function fetching(links) {
     if (links[0] == null) {
-        return [];
+        return Promise.resolve([]);
     }
 
     promise = fetch(links[0].url);
