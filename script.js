@@ -1,10 +1,8 @@
-var links = [];
-var downloadedImages = [];
-var userName;
+var globalLinks = [];
 
 function OnResult(result) {
     var media = result.data;
-    userName = media[0].user.username;
+    var userName = media[0].user.username;
 
     for (i = 0; i < media.length; i++) {
         var mediaFile = media[i];
@@ -23,7 +21,7 @@ function OnResult(result) {
             continue;
         }
 
-        links.push(mediaInfo);
+        globalLinks.push(mediaInfo);
     }
 
     var next = result.pagination.next_url;
@@ -33,28 +31,50 @@ function OnResult(result) {
         script.src = next;
         document.body.appendChild(script);
     } else {
-        fetching(links).then(() => {
-            var zip = new JSZip();
-
-            for (var i = 0; i < links.length; i++) {
-                zip.file(getDate(links[i].time) + links[i].extension, downloadedImages[i]);
-            }
-
-            var preparedFile = zip.generateAsync({
-                type: "blob"
-            });
-
-            preparedFile.then(result => {
-                document.getElementById("loader").className = "hide";
-                var link = document.getElementById("downloadButton");
-                link.className = "myButton show";
-
-                var url = window.URL.createObjectURL(result);
-                link.download = sanitize(userName) + ".zip";
-                link.href = url;
-            });
-        });
+        download(globalLinks);
     }
+}
+
+function download(links) {
+    fetching(links).then(downloadedImages => {
+        var zip = new JSZip();
+
+        for (var i = 0; i < links.length; i++) {
+            zip.file(getDate(links[i].time) + links[i].extension, downloadedImages[i]);
+        }
+
+        var preparedFile = zip.generateAsync({
+            type: "blob"
+        });
+
+        preparedFile.then(result => {
+            document.getElementById("loader").className = "hide";
+            var link = document.getElementById("downloadButton");
+            link.setAttribute("value", "Download");
+            link.className = "myButton show";
+
+            var url = window.URL.createObjectURL(result);
+            link.download = sanitize(userName) + ".zip";
+            link.href = url;
+        });
+    });
+}
+
+function fetching(links) {
+    if (links[0] == null) {
+        return [];
+    }
+
+    promise = fetch(links[0].url);
+
+    return promise.then(result => result.blob())
+        .then(result => {
+            return fetching(links.slice(1, links.length)).then(downloadedImages => {
+                downloadedImages.splice(0, 0, result);
+                return downloadedImages;
+            });
+        })
+        .catch(error => console.log(error));
 }
 
 function getDate(timestamp) {
@@ -93,19 +113,6 @@ if (window.location.hash) {
             token + "&callback=OnResult&count=20";
         document.body.appendChild(script);
     }
-}
-
-function fetching(links) {
-    if (links[0] == null) {
-        return;
-    }
-
-    promise = fetch(links[0].url);
-
-    return promise.then(result => result.blob())
-        .then(result => downloadedImages.push(result))
-        .then(() => fetching(links.slice(1, links.length)))
-        .catch(error => console.log(error));
 }
 
 function sanitize(fileName) {
