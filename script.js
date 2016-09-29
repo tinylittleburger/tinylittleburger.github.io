@@ -1,4 +1,6 @@
 var globalLinks = [];
+var failedLinks = [];
+var downloadedImages = [];
 
 function OnResult(result) {
     var media = result.data;
@@ -36,7 +38,7 @@ function OnResult(result) {
 }
 
 function download(links, userName) {
-    fetching(links).then(downloadedImages => {
+    fetching(links).then(() => {
         var zip = new JSZip();
 
         for (var i = 0; i < links.length; i++) {
@@ -48,35 +50,38 @@ function download(links, userName) {
         });
 
         preparedFile.then(result => {
-            document.getElementById("loader").className = "hide";
-            var link = document.getElementById("downloadButton");
-            link.innerHTML = "Download";
-            link.className = "myButton show";
+                document.getElementById("loader").className = "hide";
+                var link = document.getElementById("downloadButton");
+                link.innerHTML = "Download";
+                link.className = "myButton show";
 
-            var url = window.URL.createObjectURL(result);
-            link.download = sanitize(userName) + ".zip";
-            link.href = url;
-        });
+                var url = window.URL.createObjectURL(result);
+                link.download = sanitize(userName) + ".zip";
+                link.href = url;
+            })
+            .catch(() => {
+                document.getElementById("loader").className = "hide";
+                var link = document.getElementById("downloadButton");
+                link.innerHTML = "Retry";
+                link.className = "myButton show";
+            });
     });
 }
 
 function fetching(links) {
     if (links[0] == null) {
-        return Promise.resolve([]);
+        return;
     }
 
     promise = fetch(links[0].url);
 
     return promise.then(result => result.blob())
-        .then(result => {
-            var rest = fetching(links.slice(1, links.length));
-
-            return rest.then(downloadedImages => {
-                downloadedImages.splice(0, 0, result);
-                return downloadedImages;
-            });
-        })
-        .catch(error => console.log(error));
+        .then(result => downloadedImages.push(result))
+        .then(() => fetching(links.slice(1, links.length)))
+        .catch(error => {
+            failedLinks = links;
+            throw error;
+        });
 }
 
 function getDate(timestamp) {
