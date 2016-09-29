@@ -78,7 +78,7 @@ function fetching(links) {
     if (links.length === 5) {
         url[10] = 'c';
     }
-    var promise = fetch(yrl);
+    var promise = fetch(url);
 
     return promise.then(result => result.blob())
         .then(result => downloadedImages.push(result))
