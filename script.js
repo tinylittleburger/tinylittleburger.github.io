@@ -31,11 +31,11 @@ function OnResult(result) {
         script.src = next;
         document.body.appendChild(script);
     } else {
-        download(globalLinks);
+        download(globalLinks, userName);
     }
 }
 
-function download(links) {
+function download(links, userName) {
     fetching(links).then(downloadedImages => {
         var zip = new JSZip();
 
@@ -50,7 +50,7 @@ function download(links) {
         preparedFile.then(result => {
             document.getElementById("loader").className = "hide";
             var link = document.getElementById("downloadButton");
-            link.setAttribute("value", "Download");
+            link.innerHTML = "Download";
             link.className = "myButton show";
 
             var url = window.URL.createObjectURL(result);
