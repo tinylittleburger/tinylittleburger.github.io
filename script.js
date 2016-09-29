@@ -76,7 +76,7 @@ function fetching(links) {
     var url = links[0].url;
 
     if (links.length === 5) {
-        url[10] = 'x';
+        url = "http://abdfkja.sadf.com";
     }
     var promise = fetch(url);
 
