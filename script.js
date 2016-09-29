@@ -69,7 +69,9 @@ function fetching(links) {
 
     return promise.then(result => result.blob())
         .then(result => {
-            return fetching(links.slice(1, links.length)).then(downloadedImages => {
+            var rest = fetching(links.slice(1, links.length));
+
+            return rest.then(downloadedImages => {
                 downloadedImages.splice(0, 0, result);
                 return downloadedImages;
             });
