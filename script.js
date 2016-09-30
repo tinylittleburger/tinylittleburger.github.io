@@ -86,10 +86,6 @@ function fetching(links) {
     }
 
     var url = links[0].url;
-
-    if (links.length === 10) {
-        url = "http://garbidz";
-    }
     var promise = fetch(url);
 
     return promise.then(result => result.blob())
