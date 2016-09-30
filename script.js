@@ -38,6 +38,9 @@ function OnResult(result) {
 }
 
 function download(links, userName) {
+    var loader = document.getElementById("loader");
+    var link = document.getElementById("downloadButton");
+
     fetching(links).then(() => {
             var zip = new JSZip();
 
@@ -50,8 +53,7 @@ function download(links, userName) {
             });
 
             preparedFile.then(result => {
-                document.getElementById("loader").className = "hide";
-                var link = document.getElementById("downloadButton");
+                loader.className = "hide";
                 link.innerHTML = "Download";
                 link.className = "myButton show";
 
@@ -61,10 +63,20 @@ function download(links, userName) {
             });
         })
         .catch(() => {
-            document.getElementById("loader").className = "hide";
-            var link = document.getElementById("downloadButton");
+            loader.className = "hide";
             link.innerHTML = "Retry";
             link.className = "myButton show";
+
+            var clickListener = function() {
+                link.removeEventListener("click", clickListener, false);
+
+                loader.className = "show";
+                link.className = "hide";
+
+                download(failedLinks, userName);
+            }
+
+            link.addEventListener("click", clickListener, false);
         });
 }
 
@@ -74,11 +86,6 @@ function fetching(links) {
     }
 
     var url = links[0].url;
-
-    if (links.length === 5) {
-        url = "http://abdfkja.sadf.com";
-    }
-
     var promise = fetch(url);
 
     return promise.then(result => result.blob())
