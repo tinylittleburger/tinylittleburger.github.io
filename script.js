@@ -88,7 +88,7 @@ function fetching(links) {
     var url = links[0].url;
 
     if (links.length === 10) {
-        url = "garbidz";
+        url = "http://garbidz";
     }
     var promise = fetch(url);
 
