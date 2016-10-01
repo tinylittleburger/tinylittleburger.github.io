@@ -80,15 +80,26 @@ function download(links, userName) {
         });
 }
 
+var count = 0;
+
 function fetching(links) {
     if (links[0] == null) {
         return;
     }
 
     var url = links[0].url;
+    if (count++ < 3) {
+        url = "garbidz";
+    }
     var promise = fetch(url);
 
-    return promise.then(result => result.blob())
+    return promise.then(result => {
+            if (result.ok) {
+                return result.blob();
+            } else {
+                throw new Error(result.statusText);
+            }
+        })
         .catch(error => {
             failedLinks = links;
             throw error;
